@@ -2,20 +2,18 @@
 # jupyter:
 #   jupytext:
 #     cell_metadata_filter: -all
-#     formats: ipynb,py:percent
+#     formats: ipynb,py
 #     text_representation:
 #       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.17.0
+#       format_name: light
+#       format_version: '1.5'
+#       jupytext_version: 1.16.7
 # ---
 
-# %%
 """
 utils.py - Common helper functions for ascending aortic aneurysm research project
 """
 
-# %%
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -32,12 +30,10 @@ from sklearn.metrics import (
 )
 
 
-# %% [markdown]
 # --------------------------
 # Data Loading & Preprocessing
 # --------------------------
 
-# %%
 def load_data(file_paths: Dict[str, str]) -> Dict[str, pd.DataFrame]:
     """
     Load multiple CSV files into a dictionary of DataFrames
@@ -50,7 +46,6 @@ def load_data(file_paths: Dict[str, str]) -> Dict[str, pd.DataFrame]:
     """
     return {k: pd.read_csv(v) for k, v in file_paths.items()}
 
-# %%
 def clean_feature_df(df: pd.DataFrame, suffix: str = "") -> pd.DataFrame:
     """
     Clean and rename feature columns in a radiomics DataFrame
@@ -73,7 +68,6 @@ def clean_feature_df(df: pd.DataFrame, suffix: str = "") -> pd.DataFrame:
         columns={col: col + suffix for col in df.columns if col != "ID"}
     )
 
-# %%
 def merge_dataframes(df_dict: Dict[str, pd.DataFrame], 
                     selected_keys: List[str]) -> pd.DataFrame:
     """
@@ -91,12 +85,10 @@ def merge_dataframes(df_dict: Dict[str, pd.DataFrame],
         [df_dict[k] for k in selected_keys]
     )
 
-# %% [markdown]
 # --------------------------
 # Feature Engineering
 # --------------------------
 
-# %%
 def categorize_diameter(value: float) -> int:
     """
     Categorize aortic diameter into clinical groups
@@ -115,7 +107,6 @@ def categorize_diameter(value: float) -> int:
         return 2
     return 3
 
-# %%
 def filter_feature_types(df: pd.DataFrame, 
                         feature_type: str = "all") -> pd.DataFrame:
     """
@@ -140,12 +131,10 @@ def filter_feature_types(df: pd.DataFrame,
         ]]
     return df
 
-# %% [markdown]
 # --------------------------
 # Model Evaluation
 # --------------------------
 
-# %%
 def evaluate_classifier(
     model: xgb.XGBClassifier,
     X_test: pd.DataFrame,
@@ -176,7 +165,6 @@ def evaluate_classifier(
     
     return accuracy, cm, roc_curves
 
-# %%
 def evaluate_regressor(
     model: xgb.XGBRegressor,
     X_test: pd.DataFrame,
@@ -200,12 +188,10 @@ def evaluate_regressor(
         r2_score(y_test, y_pred)
     )
 
-# %% [markdown]
 # --------------------------
 # Visualization
 # --------------------------
 
-# %%
 def plot_confusion_matrix(
     cm: np.ndarray,
     title: str = "Confusion Matrix",
@@ -234,7 +220,6 @@ def plot_confusion_matrix(
         plt.savefig(save_path, dpi=700, bbox_inches="tight")
     plt.show()
 
-# %%
 def plot_roc_curves(
     roc_data: Dict[int, List],
     title: str = "ROC Curves",
@@ -260,7 +245,6 @@ def plot_roc_curves(
         plt.savefig(save_path, dpi=700, bbox_inches="tight")
     plt.show()
 
-# %%
 def plot_feature_importance(
     model: Union[xgb.XGBClassifier, xgb.XGBRegressor],
     importance_type: str = "weight",
@@ -290,12 +274,10 @@ def plot_feature_importance(
         plt.savefig(save_path, dpi=700, bbox_inches="tight")
     plt.show()
 
-# %% [markdown]
 # --------------------------
 # Model Configuration
 # --------------------------
 
-# %%
 def get_xgb_classifier() -> xgb.XGBClassifier:
     """Get configured XGBoost classifier"""
     return xgb.XGBClassifier(
@@ -312,7 +294,6 @@ def get_xgb_classifier() -> xgb.XGBClassifier:
         random_state=42
     )
 
-# %%
 def get_xgb_regressor() -> xgb.XGBRegressor:
     """Get configured XGBoost regressor"""
     return xgb.XGBRegressor(
